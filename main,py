@@ -1,0 +1,132 @@
+def show_tasks(collection):
+    if not collection:
+        print("\nСписок задач пуст.")
+        return
+
+    print("\n========== СПИСОК ЗАДАЧ ==========")
+
+    for number, task in enumerate(collection, 1):
+        print(f"{number}. {task}")
+
+    print("==================================")
+
+
+def add_task(collection):
+    task = input("Введите новую задачу: ")
+
+    if task:
+        collection.append(task)
+        print("Задача добавлена.")
+    else:
+        print("Задача не может быть пустой.")
+
+
+def edited_task(collection):
+    if not collection:
+        print("Список задач пуст.")
+        return
+
+    show_tasks(collection)
+
+    try:
+        number = int(input("Введите номер задачи для изменения: "))
+
+        if 1 <= number <= len(collection):
+            new_task = input("Введите новую задачу: ")
+
+            if new_task:
+                collection[number - 1] = new_task
+                print("Задача изменена.")
+            else:
+                print("Новая задача не может быть пустой.")
+        else:
+            print("Такой задачи нет.")
+
+    except ValueError:
+        print("Введите число.")
+
+
+def deleted_task(collection):
+    if not collection:
+        print("Список задач пуст.")
+        return
+
+    show_tasks(collection)
+
+    try:
+        number = int(input("Введите номер задачи для удаления: "))
+
+        if 1 <= number <= len(collection):
+            deleted = collection.pop(number - 1)
+            print(f"Задача удалена: {deleted}")
+        else:
+            print("Такой задачи нет.")
+
+    except ValueError:
+        print("Введите число.")
+
+
+def load_tasks(collection):
+    try:
+        with open("tasks.txt", "r", encoding="utf-8") as file:
+            collection.clear()
+
+            for line in file:
+                task = line.strip()
+
+                if task:
+                    collection.append(task)
+
+        print("Задачи загружены из файла.")
+
+    except FileNotFoundError:
+        print("Файл с задачами не найден. Будет создан новый.")
+
+
+def save_tasks(collection):
+    with open("tasks.txt", "w", encoding="utf-8") as file:
+        for task in collection:
+            file.write(task + "\n")
+
+    print("Задачи сохранены в файл.")
+
+
+def main():
+    collection = []
+
+    load_tasks(collection)
+
+    while True:
+        print("\n========== TASK MANAGER ==========")
+        print("1. Показать задачи")
+        print("2. Добавить задачу")
+        print("3. Изменить задачу")
+        print("4. Удалить задачу")
+        print("5. Сохранить и выйти")
+        print("==================================")
+
+        choice = input("Выберите действие: ")
+
+        match choice:
+            case "1":
+                show_tasks(collection)
+
+            case "2":
+                add_task(collection)
+
+            case "3":
+                edited_task(collection)
+
+            case "4":
+                deleted_task(collection)
+
+            case "5":
+                save_tasks(collection)
+                print("Работа программы завершена.")
+                break
+
+            case _:
+                print("Неверный пункт меню.")
+
+
+main()
