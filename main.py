@@ -2,6 +2,8 @@ import core
 import storage
 import view
 
+# 0.0.9 - ООП 
+# 0.1.0 - первый релиз, добавлена документация
 
 def main():
     collection = []
