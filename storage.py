@@ -1,6 +1,7 @@
 from pathlib import Path
+from utils import get_base_dir, insure_save_file
 
-TASKS_FILE = Path(__file__).with_name("tasks.txt")
+TASKS_FILE = insure_save_file()
 
 
 def load_tasks(collection):
